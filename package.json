@@ -1,0 +1,29 @@
+{
+  "name": "mongodb",
+  "version": "1.0.0",
+  "description": "learning MongoDB from official website (https://mongoosejs.com/docs/index.html)",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon ./main.js",
+    "start": "node ./main.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zhelingwang/MongoDB.git"
+  },
+  "keywords": [
+    "mongodb"
+  ],
+  "author": "zheling",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/zhelingwang/MongoDB/issues"
+  },
+  "homepage": "https://github.com/zhelingwang/MongoDB#readme",
+  "dependencies": {
+    "mongoose": "^5.7.11"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.4"
+  }
+}
