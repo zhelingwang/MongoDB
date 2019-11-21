@@ -3,44 +3,79 @@ var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/Test', {
 	useNewUrlParser: true,
 	useUnifiedTopology: true
+}).then(()=>{
+	console.log("------连接成功!------");
+}).catch(e=>{
+	console.log("连接异常");
 });
 
-const User = require("./models/UserModel");
+const Models = require("./models/UserModel");
 
-//connect successfully or not
-var db = mongoose.connection;
-db.on('error', console.error.bind(console, 'connection error:'));
-db.once('open', async function() {
-	console.log("------connect successfully!------");
+async function initialFakeData(){
 
-	// initial some fake data ========================
-	// User.create({
-	// 	name:`zhe${Math.random()}`,
-	// 	password:Math.random()*1000
-	// },function (err,item) {
-	// 	if(err) console.log(err);
-	// 	//console.log(item,"saved !");
-	// });
+	await Models.UserModel.create({
+		name:`fire${(Math.random()*100).toFixed(2)}`,
+		password:Math.random()*1000,
 
+		eggs:"2",
+		gender:"male",
 
-	// static method ========================
-	// let staticRes = await User.findByName("zhe");
-	// console.log(staticRes);
+		// fullname: {
+		// 	first: "firstName",
+		// 	last: "lastName"
+		// }
+		//  or
+		fullname: new Models.NameModel({
+			first:"hello",
+			last:"songs+"
+		})
+	},function (err,item) {
+		if(err) console.log(err);
+		console.log("saved !");
+	});
 
+}
+// initialFakeData();
 
-	//Query helper ========================
-	// let queryRes = await User.find().byNameQuery("guan");
-	// console.log(queryRes);
+async function initialFakeDataWithInstance(){
+	let name = new Models.NameModel({
+		first:"hello",
+		last:"songs"
+	});
+	name.save(function (err,result) {
+		if(err) console.log(err);
+		console.log(result,"saved name object");
+	})
+}
+// initialFakeDataWithInstance();
 
+async function deleteAll(){
+	await Models.UserModel.deleteMany({},function (err,res) {
+		console.log(err,res);
+	});
+}
+// deleteAll();
 
-	//use virtuals to update ducoment ========================
-	// let user = await User.findOne({_id:"5d03615404a44842548b4b3b"});
-	// console.log(res.nameAndPwd); //access getter
-	// user.nameAndPwd = "guan weichang456";    //access setter
-	//
-	// User.create(user,function (err,data) {
-	// 	if(err) console.log(err);
-	// 	console.log(data);
-	// });
+async function classStaticMethods(){
+	let staticRes = await Models.UserModel.findByName("zhe");
+	console.log(staticRes);
+}
 
-});
+async function queryHelperMethods() {
+	let queryRes = await Models.UserModel.find().byNameQuery("guan");
+	console.log(queryRes);
+}
+// queryHelperMethods();
+
+async function virtualPath() {
+	let user = await Models.UserModel.findOne({_id:"5d03615404a44842548b4b3b"});
+	console.log(user.nameAndPwd); //access getter
+	user.nameAndPwd = "guan weichang456";    //access setter
+}
+
+async function createByClass() {
+	Models.UserModel.create(user,function (err,data) {
+		if(err) console.log(err);
+		console.log(data);
+	});
+}

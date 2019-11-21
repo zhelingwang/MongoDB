@@ -1,9 +1,35 @@
 var mongoose = require('mongoose');
 
 //define a schema with properties and behaviors
-var userSchema = new mongoose.Schema({
-	name: String,
-	password: String
+const nameSchema = new mongoose.Schema({
+	first:String,
+	last:String
+});
+const userSchema = new mongoose.Schema({
+	name: {
+		type:"String",
+		// unique:true //convenient helper for building MongoDB unique indexes
+		validate:{
+			validator:function (v) {
+				return /^fire(\w)*/.test(v);
+			},
+			message:props=>`${props.value}前缀必须是fire!`
+		}
+	},
+	fullname:{
+		type:nameSchema,
+		required: true
+	},
+	password: String,
+	eggs:{
+		type:Number,
+		min:[2], max:12
+	},
+	gender:{
+		type:"string",
+		enum:["male","female"],
+		required:true
+	}
 });
 
 //define Class Static methods
@@ -31,8 +57,24 @@ userSchema.virtual('nameAndPwd').get(function () {
 	this.password = v.substr(v.indexOf(' ') + 1);
 });
 
+//add some pre or post hooks
+userSchema.pre("save",function (next) {
+	// console.log("doing something before user save.........");
+	// next();
+	return next();  //no return will run followed code
+	console.log("although this code after the next(),but it still will run");
+});
+userSchema.post("save",function (doc) {
+	// console.log("doing something after user saved",doc._id);
+});
+//若不使用手动调用next(),可以采用新的语法,返回一个promise即可
+
 //compile schema into model
 //args : CollectionName(system change automatically) , schema , use custom name
 const UserModel = mongoose.model("user", userSchema,"user");
+const NameModel = mongoose.model("name", nameSchema);
 
-module.exports = UserModel;
+module.exports = {
+	UserModel,
+	NameModel
+};
