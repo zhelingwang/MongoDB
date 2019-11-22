@@ -32,6 +32,9 @@ const userSchema = new mongoose.Schema({
 	}
 });
 
+//add a plugin
+userSchema.plugin(require("./../plugins/loadedAt"));
+
 //define Class Static methods
 userSchema.statics.findByName = function(name) {
 	return this.find({ name: new RegExp(name, 'i') });
@@ -71,6 +74,7 @@ userSchema.post("save",function (doc) {
 
 //compile schema into model
 //args : CollectionName(system change automatically) , schema , use custom name
+//return a Model Class , 而UserModel/NameModel其一个别名而已
 const UserModel = mongoose.model("user", userSchema,"user");
 const NameModel = mongoose.model("name", nameSchema);
 

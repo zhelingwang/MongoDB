@@ -138,4 +138,9 @@ populate做的只不过是帮助我们发一些额外的query去查询数据并�
 两个相对独立的table也好,collection也罢,如果产生了某种关系,
 做法都是存取对方的唯一标识(id/ObjectId)来建立一种映射而已
 ```
+## 10.discriminator
+> Discriminators是一个schema的继承机制,
+它可以让你在底层的mongoDB collection的基础上,用多个交叉重叠的schema来定义复杂的model.
 
+## 11.plugins
+> 插件是一个为了能在多个schema之间重复使用逻辑的工具

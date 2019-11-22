@@ -31,7 +31,7 @@ async function initialFakeData(){
 		})
 	},function (err,item) {
 		if(err) console.log(err);
-		console.log("saved !");
+		console.log("saved !",item.loadedAt);
 	});
 
 }
@@ -62,8 +62,8 @@ async function classStaticMethods(){
 }
 
 async function queryHelperMethods() {
-	let queryRes = await Models.UserModel.find().byNameQuery("guan");
-	console.log(queryRes);
+	let queryRes = await Models.UserModel.find().byNameQuery("67");
+	// console.log(queryRes,queryRes[0].loadedAt);
 }
 // queryHelperMethods();
 
