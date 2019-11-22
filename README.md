@@ -5,7 +5,7 @@ learning MongoDB from official website (https://mongoosejs.com/docs/index.html)
 
 > 概念迁移 : collection -> table , document -> record/row , schema中的属性 -> path
 
-> 大部分CRUD操作都是异步的,需要使用 await 之后才能获取真正的数据,否则获取到的可能是promise对象或Query对象
+> 大部分CRUD操作都是异步的,需要使用 await 之后才能获取真正的数据,否则获取到的是Query对象
 ## 1. schema
 - 用于定义 document 的属性以及行为.
 - 定义的属性或行为必须在编译成model之前才能生效.
